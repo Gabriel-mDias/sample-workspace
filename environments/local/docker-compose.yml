@@ -1,0 +1,72 @@
+name: sample_containers
+
+services:
+  sample-postgres:
+    image: postgres:16
+    container_name: sample_containers-postgres
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sample-network
+
+  sample-keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: sample_containers-keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://sample-postgres:5432/keycloak-db
+      KC_DB_USERNAME: keycloak-access
+      KC_DB_PASSWORD: '!security@access.g&ms'
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin@gems.env
+      KC_FEATURES: organization
+    command: start-dev --import-realm --features="organization"
+    ports:
+      - "8443:8080"
+    depends_on:
+      - sample-postgres
+    volumes:
+      - ./keycloak/realms:/opt/keycloak/data/import:ro
+    networks:
+      - sample-network
+
+  sample-localstack:
+    image: localstack/localstack:4.4.0
+    container_name: sample_containers-localstack
+    platform: linux/amd64
+    ports:
+      - "4566:4566"
+    environment:
+      - DNS_ADDRESS=0 # Evita o crash instantâneo com a rede UDP do Windows
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=us-east-1
+      - EXTRA_CORS_ALLOWED_ORIGINS=http://localhost:4200
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - "/var/run/docker.sock:/var/run/docker.sock" # Essencial para o LocalStack operar
+      - ./init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:4566/_localstack/health" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - sample-network
+
+volumes:
+  postgres_data:
+    name: sample_containers_postgres_data
+  localstack_data:
+    name: sample_containers_localstack_data
+
+networks:
+  sample-network:
+    name: sample_containers_network
+    driver: bridge

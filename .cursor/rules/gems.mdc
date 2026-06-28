@@ -1,0 +1,33 @@
+---
+description: GEMS SDK — convenções técnicas do projeto MyApp
+globs:
+alwaysApply: true
+---
+
+# GEMS SDK — Convenções Técnicas
+
+Leia `AGENTS.md` e os arquivos em `.gems-ai/rules/` antes de qualquer implementação.
+
+## Regras Prioritárias
+
+### Backend Java
+- Pacote base: `br.com.gems.myapp`
+- Extends: `BaseController`, `BaseCustomJpaRepository<E>`
+- Validação acumulada: `ArrayList<String> errors` + `BusinessException(errors)`
+- Nunca `!= null` — use `ObjectUtil.isNullOrEmpty()`
+- Soft delete: `@SQLDelete` + `@SQLRestriction`
+- IDs no DTO: `String`, nunca `UUID`
+
+### Frontend Angular 20+
+- `standalone: true` obrigatório
+- `inject()` — nunca parâmetros de construtor
+- `input()` / `output()` — nunca `@Input` / `@Output`
+- `signal()` / `computed()` para estado local
+- `@if` / `@for` / `@switch` — nunca `*ngIf` / `*ngFor` / `*ngSwitch`
+- `GemsBaseStore` — nunca `HttpClient` direto nos componentes
+- `var(--gems-*)` — nunca hex hardcoded nos estilos
+
+## Receitas Disponíveis
+
+Ver `.gems-ai/recipes/` para guias ponta-a-ponta:
+- CRUD, Search paginado, Wizard/Stepper, Upload S3, Events, Auth, Observability

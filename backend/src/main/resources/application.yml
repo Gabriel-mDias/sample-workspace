@@ -1,0 +1,84 @@
+spring:
+  application:
+    name: ${APP_NAME:sample-project}
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/sample-db}
+    username: ${DB_USERNAME:sample-access}
+    password: ${DB_PASSWORD:sample@2026.06.27!}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:validate}
+    open-in-view: false
+    show-sql: ${JPA_SHOW_SQL:false}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: ${DB_DEFAULT_SCHEMA:public}
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8443/realms/sample-realm}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8443/realms/sample-realm/protocol/openid-connect/certs}
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: ${SERVER_CONTEXT_PATH:/}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${ACTUATOR_EXPOSURE:health,info,metrics}
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+sample:
+  security:
+    keycloak:
+      realm: ${KEYCLOAK_REALM:sample-realm}
+      auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:http://localhost:8443}
+      issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8443/realms/sample-realm}
+      frontend-client-id: ${KEYCLOAK_FRONTEND_CLIENT_ID:sample-frontend}
+      backend-client-id: ${KEYCLOAK_BACKEND_CLIENT_ID:sample-backend}
+      backend-client-secret: ${KEYCLOAK_BACKEND_CLIENT_SECRET:sample-backend-local-secret}
+      organization-claim: ${KEYCLOAK_ORGANIZATION_CLAIM:organization}
+
+  tenant:
+    default-tenant: ${DEFAULT_TENANT:sample}
+    header-name: ${TENANT_HEADER_NAME:X-Tenant-Id}
+    resolution-strategy: ${TENANT_RESOLUTION_STRATEGY:keycloak-organization}
+
+gems:
+  rest:
+    correlation-id:
+      header-name: ${CORRELATION_ID_HEADER:X-Correlation-Id}
+      include-in-response: true
+
+  exception:
+    security:
+      enabled: ${GEMS_EXCEPTION_SECURITY_ENABLED:true}
+
+  jpa:
+    multi-tenant:
+      enabled: ${GEMS_MULTI_TENANT_ENABLED:true}
+      default-schema: ${GEMS_MULTI_TENANT_DEFAULT_SCHEMA:public}
+      tenant-header-name: ${TENANT_HEADER_NAME:X-Tenant-Id}
+      tenant-claim-name: ${KEYCLOAK_ORGANIZATION_CLAIM:organization}
+
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    endpoint: ${AWS_ENDPOINT:http://localhost:4566}
+    s3:
+      bucket-name: ${AWS_S3_BUCKET:sample-bucket}
+
+  openapi:
+    title: ${OPENAPI_TITLE:Sample API}
+    version: ${OPENAPI_VERSION:1.0.0}
+    description: ${OPENAPI_DESCRIPTION:API sample ready to go com GEMS SDK}

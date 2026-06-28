@@ -1,0 +1,169 @@
+{
+  "realm": "sample-realm",
+  "displayName": "Sample Realm",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "ADMIN",
+        "description": "Full administrative access for the sample project."
+      },
+      {
+        "name": "USER",
+        "description": "Default authenticated user role."
+      },
+      {
+        "name": "TENANT_ADMIN",
+        "description": "Tenant or organization administrator."
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "sample-frontend",
+      "name": "Sample Frontend",
+      "description": "Angular SPA client using Authorization Code with PKCE.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "frontchannelLogout": true,
+      "redirectUris": [
+        "http://localhost:4200/*",
+        "http://127.0.0.1:4200/*"
+      ],
+      "webOrigins": [
+        "http://localhost:4200",
+        "http://127.0.0.1:4200"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:4200/*##http://127.0.0.1:4200/*"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt",
+        "organization"
+      ],
+      "roles": [
+        {
+          "name": "ADMIN",
+          "description": "Frontend administrator role."
+        },
+        {
+          "name": "USER",
+          "description": "Frontend user role."
+        },
+        {
+          "name": "TENANT_ADMIN",
+          "description": "Frontend tenant administrator role."
+        }
+      ]
+    },
+    {
+      "clientId": "sample-backend",
+      "name": "Sample Backend",
+      "description": "Backend confidential client for service-to-service and admin integrations.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "bearerOnly": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "sample-backend-local-secret",
+      "redirectUris": [],
+      "webOrigins": [],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "offline_access",
+        "microprofile-jwt",
+        "organization"
+      ],
+      "roles": [
+        {
+          "name": "ADMIN",
+          "description": "Backend administrator role."
+        },
+        {
+          "name": "USER",
+          "description": "Backend user role."
+        },
+        {
+          "name": "TENANT_ADMIN",
+          "description": "Backend tenant administrator role."
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin.sample",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Sample",
+      "lastName": "Admin",
+      "email": "admin.sample@gems.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin@gems.env",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMIN",
+        "USER",
+        "TENANT_ADMIN"
+      ],
+      "clientRoles": {
+        "sample-frontend": [
+          "ADMIN",
+          "USER",
+          "TENANT_ADMIN"
+        ],
+        "sample-backend": [
+          "ADMIN",
+          "USER",
+          "TENANT_ADMIN"
+        ]
+      },
+      "attributes": {
+        "organization": [
+          "sample"
+        ],
+        "tenant_id": [
+          "sample"
+        ]
+      }
+    }
+  ]
+}
