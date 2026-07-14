@@ -76,4 +76,31 @@ Se o projeto usa spec-kit, o `constitution.md` deve referenciar este `AGENTS.md`
 
 > Edite livremente esta seção — o `sync` preserva apenas o bloco acima.
 
-<!-- Adicione aqui: contexto do domínio, decisões de arquitetura, módulos/rotas do projeto, etc. -->
+### Template Single-Tenant
+
+Este projeto é um **starter template single-tenant**: aplicação única, schema PostgreSQL único (`public`), sem resolução dinâmica de tenant. Autenticação via Keycloak com roles `ADMIN` (full CRUD) e `USER` (sem exclusão). **Não há suporte a múltiplas organizações** — JWT não inclui `organization` ou `tenant_id`.
+
+### Backend (`br.com.gems.sample_project`)
+
+**Spring Modulith** com domínios:
+- **`produto`** — CRUD de referência (entity, service, repository, controller, DTO, validação, testes)
+- **`notificacao`** — Listener de eventos (ex.: `ProdutoExcluidoEvent`)
+- **`security`** — Resource server Keycloak (JWT validation, `@PreAuthorize`)
+
+Domínios são privados. Cross-domain: via eventos + listeners (nenhuma chamada direta). Test-first no core.
+
+### Frontend (Angular 22 + GEMS SDK)
+
+- **`core/auth`** — `AuthService`, roles const, guards (`authGuard`, `roleGuard`)
+- **`core/menu`** — Menu dinâmico (função pura)
+- **`features/produtos`** — CRUD Produto (list, form, view, store com signals)
+- **Casca** — AppComponent + GemsSideMenuComponent (GEMS SDK)
+
+Standalone-first. Sem inline templates/styles. Stores via `GemsBaseStore` + signals. Nenhum CSS customizado desnecessário — usar GEMS SDK e CSS Variables.
+
+### Estender com Novo CRUD
+
+1. Leia `.gems-ai/recipes/crud-end-to-end.md` e `search-paginated-end-to-end.md`
+2. Use templates em `.gems-ai/templates/{backend,frontend}/`
+3. Backend: test-first, validação agregada em `List<String>`, eventos para cross-domain
+4. Frontend: feature folder, componentes standalone, signals para estado

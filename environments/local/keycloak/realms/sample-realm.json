@@ -18,10 +18,6 @@
       {
         "name": "USER",
         "description": "Default authenticated user role."
-      },
-      {
-        "name": "TENANT_ADMIN",
-        "description": "Tenant or organization administrator."
       }
     ]
   },
@@ -62,8 +58,7 @@
         "address",
         "phone",
         "offline_access",
-        "microprofile-jwt",
-        "organization"
+        "microprofile-jwt"
       ],
       "roles": [
         {
@@ -73,10 +68,6 @@
         {
           "name": "USER",
           "description": "Frontend user role."
-        },
-        {
-          "name": "TENANT_ADMIN",
-          "description": "Frontend tenant administrator role."
         }
       ]
     },
@@ -105,8 +96,7 @@
       ],
       "optionalClientScopes": [
         "offline_access",
-        "microprofile-jwt",
-        "organization"
+        "microprofile-jwt"
       ],
       "roles": [
         {
@@ -116,10 +106,6 @@
         {
           "name": "USER",
           "description": "Backend user role."
-        },
-        {
-          "name": "TENANT_ADMIN",
-          "description": "Backend tenant administrator role."
         }
       ]
     }
@@ -141,27 +127,16 @@
       ],
       "realmRoles": [
         "ADMIN",
-        "USER",
-        "TENANT_ADMIN"
+        "USER"
       ],
       "clientRoles": {
         "sample-frontend": [
           "ADMIN",
-          "USER",
-          "TENANT_ADMIN"
+          "USER"
         ],
         "sample-backend": [
           "ADMIN",
-          "USER",
-          "TENANT_ADMIN"
-        ]
-      },
-      "attributes": {
-        "organization": [
-          "sample"
-        ],
-        "tenant_id": [
-          "sample"
+          "USER"
         ]
       }
     }
