@@ -1,15 +1,12 @@
 export interface RuntimeEnvironment {
   production: boolean;
   apiBaseUrl: string;
-  tenantHeaderName: string;
-  defaultTenant: string;
   oidc: {
     issuer: string;
     clientId: string;
     redirectUri: string;
     postLogoutRedirectUri: string;
     scope: string;
-    organizationClaim: string;
   };
 }
 
@@ -32,4 +29,3 @@ export function buildEnvironment(
     }
   };
 }
-
