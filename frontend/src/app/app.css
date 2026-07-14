@@ -1,0 +1,30 @@
+/* Casca autenticada. O `gems-side-menu` usa `:host{display:contents}`, então seus dois filhos
+ * — a barra superior mobile (`.mobile-top-bar`, só ≤768px) e o container do menu
+ * (`.gems-side-menu-container`) — tornam-se filhos diretos deste `.app-shell`.
+ *
+ * Desktop (>768px): layout em LINHA — menu (sticky, 260px) à esquerda, conteúdo à direita.
+ * Mobile (≤768px): o menu vira drawer `position:fixed` (fora do fluxo) e a SDK renderiza a
+ *   barra superior com hambúrguer; portanto empilhamos em COLUNA para a barra ficar no topo. */
+.app-shell {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background: var(--gems-bg-page);
+}
+
+/* O `<main>` é a área de conteúdo ao lado da moldura (menu). Os containers da SDK
+ * (`list-container`/`form-container`) já aplicam max-width e padding internos; aqui mantemos
+ * apenas um respiro externo e o scroll independente do menu. `min-width:0` evita overflow
+ * horizontal quando o conteúdo (tabelas) é largo. */
+.app-content {
+  flex: 1;
+  min-width: 0;
+  padding: 1rem;
+  overflow: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .app-shell {
+    flex-direction: column;
+  }
+}

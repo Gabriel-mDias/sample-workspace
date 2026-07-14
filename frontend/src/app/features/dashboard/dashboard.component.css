@@ -1,0 +1,69 @@
+h1 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gems-primary-600);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  border: none;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  cursor: pointer;
+  background: var(--gems-bg-surface);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gems-primary-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+}
+
+.dashboard-card:hover::before {
+  transform: scaleX(1);
+}
+
+.dashboard-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gems-tertiary-700);
+}
+
+.dashboard-card p {
+  margin: 0;
+  color: var(--gems-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.no-areas {
+  color: var(--gems-text-secondary);
+  font-style: italic;
+  padding: 2rem;
+  background: var(--gems-bg-surface);
+  border-radius: 8px;
+  text-align: center;
+}

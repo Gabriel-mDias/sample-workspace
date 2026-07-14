@@ -1,0 +1,14 @@
+<div class="animate__animated animate__fadeIn">
+  <h1>Olá, {{ auth.username() }} 👋</h1>
+
+  <div class="dashboard-grid">
+    @if (auth.hasAnyRole([Roles.ADMIN, Roles.USER])) {
+      <div class="dashboard-card" (click)="router.navigate(['/produtos'])">
+        <h2><i class="fa-solid fa-box" style="color: var(--gems-primary-500); margin-right: 8px;"></i> Produtos</h2>
+        <p>Gerenciar o catálogo de produtos</p>
+      </div>
+    } @else {
+      <p class="no-areas"><i class="fa-solid fa-circle-info" style="margin-right: 8px;"></i> Nenhuma área disponível para o seu perfil no momento.</p>
+    }
+  </div>
+</div>
