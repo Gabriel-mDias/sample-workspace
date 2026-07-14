@@ -1,0 +1,58 @@
+<div class="form-container animate__animated animate__fadeIn">
+
+  <!-- HEADER -->
+  <div class="header">
+    <gems-button variant="secondary" type="button" icon="fa-solid fa-arrow-left" ariaLabel="Voltar"
+      (click)="cancel()"></gems-button>
+    <div class="header-titles">
+      <h2>{{ pageTitle() }}</h2>
+      <p class="subtitle">{{ pageSubtitle() }}</p>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  @if (isLoading()) {
+  <div class="loading-state" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-notch fa-spin"></i> Carregando dados...
+  </div>
+  } @else {
+
+  <form [formGroup]="produtoForm" (ngSubmit)="save()" novalidate [attr.aria-busy]="isLoading()">
+
+    <!-- ================================================================ -->
+    <!-- SECTION: DADOS DO PRODUTO                                         -->
+    <!-- ================================================================ -->
+    <gems-form-card title="Dados do Produto" subtitle="Informações básicas do produto.">
+      <div class="form-grid">
+
+        <div class="form-group full-width">
+          <gems-input-text label="Nome" formControlName="nome" placeholder="Ex.: Camiseta Básica"
+            [required]="true"></gems-input-text>
+          <gems-field-error [control]="produtoForm.get('nome')"></gems-field-error>
+        </div>
+
+        <div class="form-group">
+          <gems-input-mask label="Preço" formControlName="preco" maskType="moeda" placeholder="R$ 0,00"
+            [required]="true"></gems-input-mask>
+          <gems-field-error [control]="produtoForm.get('preco')"></gems-field-error>
+        </div>
+
+        <div class="form-group full-width">
+          <gems-input-text label="Descrição" formControlName="descricao"
+            placeholder="Ex.: Camiseta 100% algodão, disponível em vários tamanhos."></gems-input-text>
+        </div>
+
+      </div>
+
+      <div gems-form-card-footer class="form-actions">
+        <gems-button variant="secondary" type="button" label="Cancelar" icon="fa-solid fa-xmark" iconPosition="right"
+          (click)="cancel()"></gems-button>
+        <gems-button type="submit" [disabled]="isLoading()" [loading]="isLoading()"
+          [label]="isEdit() ? 'Atualizar' : 'Salvar'" icon="fa-solid fa-floppy-disk" iconPosition="right"></gems-button>
+      </div>
+    </gems-form-card>
+
+  </form>
+  }
+
+</div>

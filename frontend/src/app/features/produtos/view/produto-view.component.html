@@ -1,0 +1,52 @@
+<div class="view-container animate__animated animate__fadeIn">
+
+  <!-- HEADER -->
+  <div class="header">
+    <gems-button variant="secondary" type="button" icon="fa-solid fa-arrow-left" ariaLabel="Voltar para a lista"
+      (click)="goBack()"></gems-button>
+    <div class="header-titles">
+      <h2>Detalhes do Produto</h2>
+      <p class="subtitle">Informações completas em modo somente-leitura.</p>
+    </div>
+    @if (produto()) {
+    <gems-button variant="primary" type="button" label="Editar" icon="fa-solid fa-pen"
+      ariaLabel="Editar produto" (click)="edit()"></gems-button>
+    }
+  </div>
+
+  <!-- LOADING -->
+  @if (isLoading()) {
+  <div class="loading-state" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-notch fa-spin"></i> Carregando dados...
+  </div>
+  } @else if (produto()) {
+
+  <!-- DADOS DO PRODUTO -->
+  <gems-summary-card title="Dados do Produto" [expanded]="true">
+    <div gems-summary-card-details class="detail-grid">
+      <div class="detail-field full-width">
+        <span class="detail-label">Nome</span>
+        <span class="detail-value">{{ produto()!.nome }}</span>
+      </div>
+      <div class="detail-field">
+        <span class="detail-label">Preço</span>
+        <span class="detail-value">{{ produto()!.preco | currency:'BRL' }}</span>
+      </div>
+      @if (produto()!.dataCriacao) {
+      <div class="detail-field">
+        <span class="detail-label">Data de Criação</span>
+        <span class="detail-value">{{ produto()!.dataCriacao | date:'dd/MM/yyyy' }}</span>
+      </div>
+      }
+      @if (produto()!.descricao) {
+      <div class="detail-field full-width">
+        <span class="detail-label">Descrição</span>
+        <span class="detail-value">{{ produto()!.descricao }}</span>
+      </div>
+      }
+    </div>
+  </gems-summary-card>
+
+  }
+
+</div>

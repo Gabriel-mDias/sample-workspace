@@ -1,0 +1,54 @@
+<div class="list-container animate__animated animate__fadeIn">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-titles">
+      <h2>Produtos</h2>
+      <p class="subtitle">Gerencie os produtos cadastrados.</p>
+    </div>
+    <gems-button routerLink="/produtos/novo" label="Novo Produto" icon="fa-solid fa-plus" ariaLabel="Novo produto"></gems-button>
+  </div>
+
+  <!-- FILTROS -->
+  <gems-form-card title="Filtros de Pesquisa" subtitle="Utilize os campos para refinar a lista.">
+    <div class="form-grid">
+
+      <div class="form-group">
+        <gems-input-text
+          label="Nome"
+          [(ngModel)]="filter.nome"
+          placeholder="Ex.: Camiseta Básica"
+          (keyup.enter)="search()">
+        </gems-input-text>
+      </div>
+
+    </div>
+    <div gems-form-card-footer class="filter-actions">
+      <gems-button variant="secondary" type="button" (click)="clearFilters()">
+        Limpar <i class="fa-solid fa-eraser"></i>
+      </gems-button>
+      <gems-button type="button" (click)="search()">
+        Pesquisar <i class="fa-solid fa-search"></i>
+      </gems-button>
+    </div>
+  </gems-form-card>
+
+  <!-- TABELA -->
+  <div class="content-card">
+    <gems-table
+      [columns]="columns"
+      [data]="produtos()"
+      [actions]="actions"
+      [totalRecords]="totalElements()"
+      [page]="pageable.page ?? 0"
+      [size]="pageable.size ?? 10"
+      [isLoading]="isLoading()"
+      emptyMessage="Nenhum produto encontrado."
+      [labels]="tableLabels"
+      [rowId]="'id'"
+      (pageChange)="onPageChange($event)"
+      (actionClick)="onAction($event)">
+    </gems-table>
+  </div>
+
+</div>

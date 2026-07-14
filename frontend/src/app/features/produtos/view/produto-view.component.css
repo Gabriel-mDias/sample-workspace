@@ -1,0 +1,92 @@
+/* Produto View — estilos específicos da tela; cores via tokens da GEMS SDK.
+ * `.btn-back` é global (styles.css); o botão "Editar" é <gems-button> (estiliza sozinho). */
+
+.view-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.header-titles {
+  flex: 1;
+}
+
+.header-titles h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gems-primary-700);
+}
+
+.header-titles .subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--gems-text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Loading */
+.loading-state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--gems-text-secondary);
+  font-size: 0.95rem;
+}
+
+/* Detail grid — responsive */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+@media (max-width: 480px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.detail-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.detail-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gems-text-muted);
+}
+
+.detail-value {
+  font-size: 0.95rem;
+  color: var(--gems-text-primary);
+  word-break: break-word;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .view-container {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
