@@ -25,8 +25,7 @@ services:
       KC_DB_PASSWORD: '!security@access.g&ms'
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin@gems.env
-      KC_FEATURES: organization
-    command: start-dev --import-realm --features="organization"
+    command: start-dev --import-realm
     ports:
       - "8443:8080"
     depends_on:

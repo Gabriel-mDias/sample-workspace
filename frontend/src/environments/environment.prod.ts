@@ -7,15 +7,11 @@ const runtimeEnv = (globalThis as typeof globalThis & {
 export const environment = buildEnvironment({
   production: true,
   apiBaseUrl: 'https://api.sample.example.com',
-  tenantHeaderName: 'X-Tenant-Id',
-  defaultTenant: 'sample',
   oidc: {
     issuer: 'https://auth.sample.example.com/realms/sample-realm',
     clientId: 'sample-frontend',
     redirectUri: `${window.location.origin}/callback`,
     postLogoutRedirectUri: window.location.origin,
-    scope: 'openid profile email organization',
-    organizationClaim: 'organization'
+    scope: 'openid profile email'
   }
 }, runtimeEnv);
-

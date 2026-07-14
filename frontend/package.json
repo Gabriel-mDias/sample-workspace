@@ -11,13 +11,21 @@
   "private": true,
   "packageManager": "npm@11.17.0",
   "dependencies": {
+    "@angular/animations": "^22.0.5",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "@fontsource/inter": "^5.2.8",
+    "@fortawesome/fontawesome-free": "^7.3.0",
+    "@gabriel-mdias/angular-gems-sdk": "^1.1.0",
+    "animate.css": "^4.1.1",
+    "keycloak-angular": "^16.1.0",
+    "keycloak-js": "^26.2.4",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.26.25",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

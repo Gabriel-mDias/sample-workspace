@@ -29,8 +29,80 @@
 	<properties>
 		<java.version>21</java.version>
 		<spring-modulith.version>2.1.0</spring-modulith.version>
+		<keycloak.version>26.0.9</keycloak.version>
 	</properties>
 	<dependencies>
+		<!-- GEMS SDK -->
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-rest-common</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-validation</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-exception</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-observability</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-utils</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-model-mapper</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-jpa</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-aws</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-aws-web</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.gems</groupId>
+			<artifactId>gems-openapi</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+
+		<!-- Auth (Keycloak) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<version>${keycloak.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -191,6 +263,31 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<!--
+			  A partir do JDK moderno, o Mockito não pode mais se auto-anexar como agente para o
+			  inline-mock-maker (self-attach removido). Resolvemos o jar do mockito-core e o passamos
+			  explicitamente como -javaagent ao Surefire, conforme recomendação oficial do Mockito.
+			  Sem isto, a JVM forkada dos testes pode crashar ("terminated without properly saying goodbye").
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>get-mockito-agent</id>
+						<goals>
+							<goal>properties</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
